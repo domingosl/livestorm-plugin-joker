@@ -32,6 +32,7 @@
     "webpack-cli": "4.3.1"
   },
   "dependencies": {
-    "@livestorm/plugin": "https://github.com/livestorm/livestorm-plugin.git"
+    "@livestorm/plugin": "https://github.com/livestorm/livestorm-plugin.git",
+    "axios": "^0.21.4"
   }
 }

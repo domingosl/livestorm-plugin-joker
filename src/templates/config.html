@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app" ng-controller="main">
+<head>
+    <meta charset="UTF-8">
+    <title>Config modal</title>
+
+</head>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/livestorm/livestorm-plugin/dist/assets/css/style.css">
+
+<style>
+    .modal-title {
+        text-align: left;
+        height: 35px;
+        padding: 5px 15px;
+    }
+
+    .modal-content {
+        position: relative;
+        padding: 30px 15px 20px 15px;
+        min-height: 320px;
+        max-height: 320px;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .modal-footer {
+        text-align: center;
+        height: 25px;
+        margin-top: 25px;
+    }
+
+    h3 {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .row {
+        display: flex;
+        margin: 6px 0;
+    }
+
+    .col {
+        padding: 0 5px;
+    }
+
+    .col-6 {
+        flex: 50%;
+    }
+
+    .col-4 {
+        flex: 25%
+    }
+
+    .bottom-bar {
+        position: absolute;
+        bottom: 0;
+        width: 93%;
+        text-align: center;
+    }
+
+    .full-button {
+        width: 100%;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+</style>
+
+<body>
+
+<div class="modal-title">
+    <span class="ls-text-20-semibold">Share a joke</span>
+</div>
+
+<div class="modal-content">
+
+    <form class="ls-form ls-mt-2">
+        <div>
+            <label class="ls-label">Category</label>
+            <select class="ls-input" ng-model="joke.category">
+                <option value="Any">All</option>
+                <option value="Programming">Programming</option>
+                <option value="Miscellaneous">Miscellaneous</option>
+                <option value="Dark">Dark</option>
+                <option value="Pun">Pun</option>
+                <option value="Spooky">Spooky</option>
+                <option value="Christmas">Christmas</option>
+            </select>
+        </div>
+
+        <h3>Blacklist</h3>
+        <div class="row">
+
+            <div class="col-4">
+                <div>
+                    <label class="ls-label">NSFW</label>
+                    <br/>
+
+                    <label class="ls-switch ls-switch-blue">
+                        <input type="checkbox" ng-model="blacklist.nsfw">
+                        <div></div>
+                        <div></div>
+                    </label>
+
+                </div>
+                <div>
+                    <label class="ls-label">Religious</label>
+                    <br/>
+
+                    <label class="ls-switch ls-switch-blue">
+                        <input type="checkbox" ng-model="blacklist.religious">
+                        <div></div>
+                        <div></div>
+                    </label>
+
+                </div>
+            </div>
+            <div class="col-4">
+                <div>
+                    <label class="ls-label">Political</label>
+                    <br/>
+
+                    <label class="ls-switch ls-switch-blue">
+                        <input type="checkbox" ng-model="blacklist.political">
+                        <div></div>
+                        <div></div>
+                    </label>
+
+                </div>
+                <div>
+                    <label class="ls-label">Racist</label>
+                    <br/>
+
+                    <label class="ls-switch ls-switch-blue">
+                        <input type="checkbox" ng-model="blacklist.racist">
+                        <div></div>
+                        <div></div>
+                    </label>
+
+                </div>
+            </div>
+            <div class="col-4">
+                <div>
+                    <label class="ls-label">Sexist</label>
+                    <br/>
+
+                    <label class="ls-switch ls-switch-blue">
+                        <input type="checkbox" ng-model="blacklist.sexist">
+                        <div></div>
+                        <div></div>
+                    </label>
+
+                </div>
+                <div>
+                    <label class="ls-label">Explicit</label>
+                    <br/>
+
+                    <label class="ls-switch ls-switch-blue">
+                        <input type="checkbox" ng-model="blacklist.explicit">
+                        <div></div>
+                        <div></div>
+                    </label>
+
+                </div>
+            </div>
+        </div>
+
+    <br />
+
+    </form>
+
+    <div class="bottom-bar text-center">
+
+
+        <div class="row">
+            <div class="col col-6">
+                <button class="ls-button ls-button-primary full-button text-center" ng-click="shareJoke('chat')">
+                    <div class="ls-button-wrapper w-full">
+                        Share in Chat
+                    </div>
+                </button>
+            </div>
+            <div class="col col-6">
+                <button class="ls-button ls-button-primary full-button text-center" ng-click="shareJoke('notification')">
+                    <div class="ls-button-wrapper">
+                        Share as notification
+                    </div>
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+<div class="modal-footer">
+    <span class="ls-text-12-regular">Joker plugin for Livestorm</span>
+</div>
+
+<script crossorigin src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+<script>
+    angular.module('app', []).controller('main', function ($scope) {
+
+        $scope.joke = { category: 'Any' };
+        $scope.blacklist = {
+            nsfw: true,
+            religious: false,
+            political: false,
+            racist: false,
+            sexist: false,
+            explicit: false
+        };
+
+
+        $scope.shareJoke = (method) => {
+
+            postMessage({
+                cmd: 'shareJoke', data: { method, joke: $scope.joke, blacklist: $scope.blacklist }
+            });
+
+            closeModal();
+        };
+
+    });
+</script>
+</body>
+</html>
